@@ -3,14 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const { I18n } = require('i18n')
+const { I18n, setLocale } = require('i18n');
+const I18nConfig = require('./config');
 
-const i18n = new I18n({
-  locales: ['en', 'ar'],
-  directory: path.join(__dirname, 'locales'),
-  defaultLocale: 'ar'
-})
- 
+const i18n = new I18n(I18nConfig);
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -30,7 +27,6 @@ app.use(function(req, res, next){
   i18n.init(req, res);
   next();
 });
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
